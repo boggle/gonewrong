@@ -1,6 +1,6 @@
 gonewrong
 =========
 
-Package for dealing with C errors and locking go routines to threads
+Package for dealing with C errors and locking go routines to OS threads
 
 

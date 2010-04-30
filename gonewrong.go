@@ -71,7 +71,7 @@ func MayPanic(err os.Error) {
 // Returns true if ptr is C NULL
 // (Spec doesnt define go nil to be == NULL)
 func IsCNullPtr(ptr unsafe.Pointer) bool {
-  return uintptr(ptr) == uintptr(C.NULL)
+  return uintptr(ptr) == uintptr(0)
 }
 
 // Returns errno from C for the current thread

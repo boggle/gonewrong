@@ -1,4 +1,4 @@
-include $(GOROOT)/src/Make.$(GOARCH)
+include $(GOROOT)/src/Make.inc
 
 PKGDIR=$(GOROOT)/pkg/$(GOOS)_$(GOARCH)
 
@@ -6,7 +6,7 @@ TARG=gonewrong
 CGOFILES=gonewrong.go
 CGO_CFLAGS=-I. -I "$(GOROOT)/include"
 CGO_LDFLAGS=-lzmq
-GOFMT=$(GOROOT)/bin/gofmt -tabwidth=2 -spaces=true -tabindent=false -w 
+GOFMT=$(GOROOT)/bin/gofmt -tabwidth=4 -spaces=true -tabindent=false -w 
 
 include $(GOROOT)/src/Make.pkg
 

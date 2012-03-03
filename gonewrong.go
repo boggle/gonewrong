@@ -1,12 +1,13 @@
 package gonewrong
 
-import "os"
-import rt "runtime"
-
-// #include <u.h>
-// #include <errno.h>
-// int64 get_errno() { return errno; }
+/*
+#include <errno.h>
+#include <stdint.h>
+int64_t get_errno() { return errno; }
+*/
 import "C"
+
+import rt "runtime"
 
 
 // ******* Thunks ************************************************************
@@ -43,19 +44,19 @@ func (p Thunk) SendOnFinish(ch chan interface{}, msg interface{}) Thunk {
 // ******* Error Handling ****************************************************
 
 type ErrKnow interface {
-    GetError() os.Error
+    GetError() error
 
-    OkIf(cond bool) os.Error
-    ErrorIf(cond bool) os.Error
+    OkIf(cond bool) error
+    ErrorIf(cond bool) error
 }
 
 // If cond is true returns nil, error otherwise
-func OkIf(cond bool, error os.Error) os.Error {
+func OkIf(cond bool, error error) error {
     return ErrorIf(!cond, error)
 }
 
 // If cond is true returns error, nil otherwise
-func ErrorIf(cond bool, error os.Error) os.Error {
+func ErrorIf(cond bool, error error) error {
     if cond {
         return error
     }
@@ -63,16 +64,16 @@ func ErrorIf(cond bool, error os.Error) os.Error {
 }
 
 // Panics if err is != nil
-func PanicUnlessNil(err os.Error) {
+func PanicUnlessNil(err error) {
     if err != nil {
         panic(err)
     }
 }
 
-// Returns true if ptr is C NULL
+// Returns true if ptr is C NULL (== 0)
 // (Spec doesnt define go nil to be == NULL)
 func IsCNullPtr(ptr uintptr) bool {
-    return ptr == uintptr(C.NULL)
+    return ptr == uintptr(0)
 }
 
 // Returns errno from C for the current thread
